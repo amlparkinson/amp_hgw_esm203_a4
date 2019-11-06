@@ -1,0 +1,44 @@
+---
+title: "Lobster Abundance, Size, and Fishing Effort off the Santa Barbara Coast"
+author: "Hannah Garcia-Wickstrum & Anne-Marie Parkinson"
+date: "11/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Introduction
+
+Enter short 7-8 sentence introduction here - describe the purpose/motivation of the research and preview the content of the report. 
+
+Enter photos here as Figure 1.
+
+### Data and Methods
+
+Enter brief section here (5-6 sentences) summarizing the data and how it was analyzed. Describe variables being studied in report and include the types of statistical tests performed, significance level used and software (with version) for anaylsis. 
+
+### Results
+Finalized data visualizations and perform statistical analyses to do the following. Use useful text that weaves pieces together into a cohesive Results section (not just a series of figures)
+
+1. Changes in lobster abundance by site
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(here)
+library(tidyr)
+
+lobster_abundance_sbc <- read_csv(here::here("data", "lobster_abundance_sbc_lter.csv"),
+                                  na = "-99999") %>%
+  janitor::clean_names() 
+
+lobster_abundance_tidy <- lobster_abundance_sbc %>%
+  tidyr::uncount(count)
+```
+
+
+2. Lobster size distribution shifts (2012 - 2018)
+
+3. Mean lobster sizes at MPA vs non-Mpa sites (2012 - 2018)
