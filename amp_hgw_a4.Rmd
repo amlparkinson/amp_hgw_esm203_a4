@@ -6,17 +6,25 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE)
 ```
 
 ### Introduction
 
 Enter short 7-8 sentence introduction here - describe the purpose/motivation of the research and preview the content of the report. 
 
+- spiny lobsters, (*Panulirus interruptus*), are important predators in giant kelp forests. 
+
+![](figures/spiny_lobster.jpg)
+
 Enter photos here as Figure 1.
 
 ### Data and Methods
 
+Data for spiny lobster abundance, size, and fishing efforts was collected from August 2012 to December 2018 by the [Santa Barbara Coastal Long-Term Ecological Research (LTER)](http://sbc.lternet.edu//index.html). Data was collected annually by divers in late summer before the start of fishing season at five long-term kelp forest study sites. For more information on collection methods and spatial information, please see the [metadata](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-sbc&identifier=77&revision=newest). 
 Enter brief section here (5-6 sentences) summarizing the data and how it was analyzed. Describe variables being studied in report and include the types of statistical tests performed, significance level used and software (with version) for anaylsis. 
 
 ### Results
@@ -35,10 +43,19 @@ lobster_abundance_sbc <- read_csv(here::here("data", "lobster_abundance_sbc_lter
   janitor::clean_names() 
 
 lobster_abundance_tidy <- lobster_abundance_sbc %>%
-  tidyr::uncount(count)
+  tidyr::uncount(count) 
+
+### Anne-Marie to enter her code here. 
+
 ```
 
 
 2. Lobster size distribution shifts (2012 - 2018)
+
+```{r}
+
+  
+```
+
 
 3. Mean lobster sizes at MPA vs non-Mpa sites (2012 - 2018)
