@@ -18,20 +18,19 @@ Enter short 7-8 sentence introduction here - describe the purpose/motivation of 
 
 - spiny lobsters, (*Panulirus interruptus*), are important predators in giant kelp forests. 
 
-![](figures/spiny_lobster.jpg)
+![](figures/wikipedia_lobster_Ed_Bierman.jpg)
 
-Enter photos here as Figure 1.
+***Figure 1.** Spiny lobsters emerging from crack in sea floor. Credit: Ed Bierman, [Wikipedia](https://en.wikipedia.org/wiki/California_spiny_lobster)*
 
 ### Data and Methods
 
-Data for spiny lobster abundance, size, and fishing efforts was collected from August 2012 to December 2018 by the [Santa Barbara Coastal Long-Term Ecological Research (LTER)](http://sbc.lternet.edu//index.html). Data was collected annually by divers in late summer before the start of fishing season at five long-term kelp forest study sites. For more information on collection methods and spatial information, please see the [metadata](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-sbc&identifier=77&revision=newest). 
-Enter brief section here (5-6 sentences) summarizing the data and how it was analyzed. Describe variables being studied in report and include the types of statistical tests performed, significance level used and software (with version) for anaylsis. 
-
+Data for spiny lobster abundance, size, and fishing efforts was collected from August 2012 to December 2018 by the [Santa Barbara Coastal Long-Term Ecological Research (LTER)](http://sbc.lternet.edu//index.html). Data was collected annually by divers in late summer before the start of fishing season at five long-term kelp forest study sites. For more information on collection methods and spatial information, please see the [metadata](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-sbc&identifier=77&revision=newest). Lobster observations were based on observations from a diver searching 2.5 m areas on opposite sides of a 60 m transect tape, searching through cracks, caves, and other structures. Counts and sizes (mm) of lobsters were compared in Marine Protected Areas (MPA) and Non-Marine Protected Areas (Non-MPA). **Complete section about t-tests and alphas after done with A-C**
+Trends in lobster counts and sizes were compared in MPA and Non-MPA by linear regression. All analyses and figures were prepared using R software version 3.6.1. Collaboration between authors was done using GitHub. 
 
 ### Results
 Finalized data visualizations and perform statistical analyses to do the following. Use useful text that weaves pieces together into a cohesive Results section (not just a series of figures)
 
-###1. Changes in lobster abundance by site
+#### 1. Result A: Changes in lobster abundance by site (2012 - 2018)
 
 ```{r}
 library(tidyverse)
@@ -43,13 +42,7 @@ lobster_abundance_sbc <- read_csv(here::here("data", "lobster_abundance_sbc_lter
                                   na = "-99999") %>%
   janitor::clean_names() 
 
-
-
-
 ```
-
-
-###2. Result A: Lobster size distribution shifts (2012 - 2018)
 
 change site abbreviations to actual names in the sub data set:
 
@@ -63,23 +56,29 @@ change site abbreviations to actual names in the sub data set:
 
 ```{r}
 annual_lobsters <- lobster_abundance_sbc %>% 
-  #rename(c("AQUA", 'CARP', 'IVEE', 'MOHK', 'NAPL'))
+  #rename(c("AQUA", 'CARP', 'IVEE', 'MOHK', 'NAPL')) #is this supposed to be code or a comment? Do we need to do uncount?
   #change names for the sites here
   group_by(site, year) %>% 
   summarise(yearly_lobsters=sum(count))
-  #add column to label site as MPA or not? or can specify that ivee and napl are mpas in the graph code  
+  #add column to label site as MPA or not? or can specify that ivee and napl are mpas in the graph code (AMP)
+# Maybe we can label the map directly which ones are MPAs vs. Non-MPAs (HGW)
 
 ggplot(annual_lobsters, aes(x=year, y=yearly_lobsters)) +
   geom_line(aes(color=site)) +
   geom_point(aes(color=site))
   
+# Update x & y axis labels and title. 
+
 ```
 
+#### 2. Result B: Lobster size distribution shifts, 2012 vs 2018
 
-###3. Result B: Mean lobster sizes at MPA vs non-Mpa sites (2012 - 2018)
 
 ```{r}
 lobster_abundance_tidy <- lobster_abundance_sbc %>%
   tidyr::uncount(count) 
+
+lobster_size <- lobster_abundance_tidy # will get back to this. 
 ```
 
+#### 3. Result C: Compare mean lobster sizes at MPA vs Non-MPA sites (2012 - 2018)
