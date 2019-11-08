@@ -27,6 +27,7 @@ Enter photos here as Figure 1.
 Data for spiny lobster abundance, size, and fishing efforts was collected from August 2012 to December 2018 by the [Santa Barbara Coastal Long-Term Ecological Research (LTER)](http://sbc.lternet.edu//index.html). Data was collected annually by divers in late summer before the start of fishing season at five long-term kelp forest study sites. For more information on collection methods and spatial information, please see the [metadata](https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-sbc&identifier=77&revision=newest). 
 Enter brief section here (5-6 sentences) summarizing the data and how it was analyzed. Describe variables being studied in report and include the types of statistical tests performed, significance level used and software (with version) for anaylsis. 
 
+
 ### Results
 Finalized data visualizations and perform statistical analyses to do the following. Use useful text that weaves pieces together into a cohesive Results section (not just a series of figures)
 
