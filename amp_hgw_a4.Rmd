@@ -62,7 +62,7 @@ change site abbreviations to actual names in the sub data set:
 
 ```{r}
 annual_lobsters <- lobster_abundance_sbc %>% 
-  rename(c("AQUA", 'CARP', 'IVEE', 'MOHK', 'NAPL'))
+  #rename(c("AQUA", 'CARP', 'IVEE', 'MOHK', 'NAPL'))
   #change names for the sites here
   group_by(site, year) %>% 
   summarise(yearly_lobsters=sum(count))
