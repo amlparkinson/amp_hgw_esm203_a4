@@ -30,7 +30,7 @@ Enter brief section here (5-6 sentences) summarizing the data and how it was ana
 ### Results
 Finalized data visualizations and perform statistical analyses to do the following. Use useful text that weaves pieces together into a cohesive Results section (not just a series of figures)
 
-1. Changes in lobster abundance by site
+###1. Changes in lobster abundance by site
 
 ```{r}
 library(tidyverse)
@@ -42,20 +42,43 @@ lobster_abundance_sbc <- read_csv(here::here("data", "lobster_abundance_sbc_lter
                                   na = "-99999") %>%
   janitor::clean_names() 
 
-lobster_abundance_tidy <- lobster_abundance_sbc %>%
-  tidyr::uncount(count) 
 
-### Anne-Marie to enter her code here. 
+
 
 ```
 
 
-2. Lobster size distribution shifts (2012 - 2018)
+###2. Result A: Lobster size distribution shifts (2012 - 2018)
+
+change site abbreviations to actual names in the sub data set:
+
+- AQUA = Arroyo Quemado
+- CARP = Carpinteria
+- IVEE = Isla Vista
+- MOHK = Mohawk
+- NAPL = Naples
+
+2 MPAs= isla vista and naples. MPAs established on Jan 1, 2012. The other 3 sites are not MPAs. 
 
 ```{r}
+annual_lobsters <- lobster_abundance_sbc %>% 
+  rename(c("AQUA", 'CARP', 'IVEE', 'MOHK', 'NAPL'))
+  #change names for the sites here
+  group_by(site, year) %>% 
+  summarise(yearly_lobsters=sum(count))
+  #add column to label site as MPA or not? or can specify that ivee and napl are mpas in the graph code  
 
+ggplot(annual_lobsters, aes(x=year, y=yearly_lobsters)) +
+  geom_line(aes(color=site)) +
+  geom_point(aes(color=site))
   
 ```
 
 
-3. Mean lobster sizes at MPA vs non-Mpa sites (2012 - 2018)
+###3. Result B: Mean lobster sizes at MPA vs non-Mpa sites (2012 - 2018)
+
+```{r}
+lobster_abundance_tidy <- lobster_abundance_sbc %>%
+  tidyr::uncount(count) 
+```
+
