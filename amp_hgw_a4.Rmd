@@ -28,10 +28,8 @@ Data for spiny lobster abundance, size, and fishing efforts was collected from A
 Trends in lobster counts and sizes were compared in MPA and Non-MPA by linear regression. All analyses and figures were prepared using R software version 3.6.1. Collaboration between authors was done using GitHub. 
 
 ### Results
-Finalized data visualizations and perform statistical analyses to do the following. Use useful text that weaves pieces together into a cohesive Results section (not just a series of figures)
-
 #### 1. Result A: Changes in lobster abundance by site (2012 - 2018)
-
+The effects of creating Marine Protected Areas (MPAs) can be seen in Figure 2. At Isla Vista (IVEE), it seems the creation of an MPA has significantly increase the lobster counts from less than 125 individuals in 2012, to over 800 individuals in 2018. Compared to Naples, another MPA, lobster counts stayed relatively constant, similar to Non-MPA sites.  FINISH RESULTS SECTION ...
 ```{r}
 library(tidyverse)
 library(janitor)
@@ -44,17 +42,16 @@ lobster_abundance_sbc <- read_csv(here::here("data", "lobster_abundance_sbc_lter
 
 ```
 
-change site abbreviations to actual names in the sub data set:
-
-- AQUA = Arroyo Quemado
-- CARP = Carpinteria
-- IVEE = Isla Vista
-- MOHK = Mohawk
-- NAPL = Naples
-
-2 MPAs= isla vista and naples. MPAs established on Jan 1, 2012. The other 3 sites are not MPAs. 
 
 ```{r}
+# change site abbreviations to actual names in the sub data set:
+# 
+# - AQUA = Arroyo Quemado
+# - CARP = Carpinteria
+# - IVEE = Isla Vista
+# - MOHK = Mohawk
+# - NAPL = Naples
+
 annual_lobsters <- lobster_abundance_sbc %>% 
   #rename(c("AQUA", 'CARP', 'IVEE', 'MOHK', 'NAPL')) #is this supposed to be code or a comment? Do we need to do uncount?
   #change names for the sites here
@@ -65,11 +62,26 @@ annual_lobsters <- lobster_abundance_sbc %>%
 
 ggplot(annual_lobsters, aes(x=year, y=yearly_lobsters)) +
   geom_line(aes(color=site)) +
-  geom_point(aes(color=site))
-  
-# Update x & y axis labels and title. 
+  geom_point(aes(color=site)) +
+  labs(x = "year", y = "lobster count (individuals)") +
+  geom_text(x = 2017.9, y = 250,
+            label = "MPA",
+            color = "purple",
+            size = 2.5,
+            hjust = 0,
+            vjust = 0) +
+  geom_text(x = 2017.9, y = 875,
+            label = "MPA", 
+            color = "seagreen", 
+            size = 2.5,
+            hjust = 0,
+            vjust = 0)
+
+  ### What do you think with the MPA listed on the graph? 
 
 ```
+***Figure 2.** Lobster counts from 2012 to 2018 in MPAs (IVEE and NAPL) and Non-MPAs (AQUE, CARP, and MOHK). MPAs were established on January 1, 2012.*
+
 
 #### 2. Result B: Lobster size distribution shifts, 2012 vs 2018
 
@@ -78,7 +90,10 @@ ggplot(annual_lobsters, aes(x=year, y=yearly_lobsters)) +
 lobster_abundance_tidy <- lobster_abundance_sbc %>%
   tidyr::uncount(count) 
 
-lobster_size <- lobster_abundance_tidy # will get back to this. 
+lobster_size <- lobster_abundance_tidy %>%
+  filter(year == c(2012, 2018)) ### Need help with this. My vision for this graph is to have overlapping histograms for 2012 and 2018, but to facet wrap it by site. I don't think we need to do any statistical analysis until C.  
+  # group_by(site)
+  # summarize(avg_size = mean(size_mm))
 ```
 
 #### 3. Result C: Compare mean lobster sizes at MPA vs Non-MPA sites (2012 - 2018)
