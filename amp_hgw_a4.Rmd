@@ -44,26 +44,27 @@ lobster_abundance_sbc <- read_csv(here::here("data", "lobster_abundance_sbc_lter
 
 
 ```{r}
-# change site abbreviations to actual names in the sub data set:
-# 
-# - AQUA = Arroyo Quemado
-# - CARP = Carpinteria
-# - IVEE = Isla Vista
-# - MOHK = Mohawk
-# - NAPL = Naples
-
+# sub data set-----------------------------------------------------------------
 annual_lobsters <- lobster_abundance_sbc %>% 
-  #rename(c("AQUA", 'CARP', 'IVEE', 'MOHK', 'NAPL')) #is this supposed to be code or a comment? Do we need to do uncount?
-  #change names for the sites here
   group_by(site, year) %>% 
-  summarise(yearly_lobsters=sum(count))
-  #add column to label site as MPA or not? or can specify that ivee and napl are mpas in the graph code (AMP)
-# Maybe we can label the map directly which ones are MPAs vs. Non-MPAs (HGW)
-
+  summarise(yearly_lobsters=sum(count)) %>% 
+  mutate(site_name_long =case_when(
+    site %in% c("AQUE") ~ "Arroyo Quemado",
+    site %in% c("CARP") ~ "Carpinteria",
+    site %in% c("IVEE") ~ "Isla Vista",
+    site %in% c("MOHK") ~ "Mohawk", 
+    site %in% c("NAPL") ~ "Naples")) %>% 
+  mutate (MPA =case_when( 
+    site %in% c("IVEE", "NAPL") ~ "MPA",
+    site %in% c("AQUE", "CARP", "MOHK"), ~ "Not MPA"))
+    
+# graph
 ggplot(annual_lobsters, aes(x=year, y=yearly_lobsters)) +
-  geom_line(aes(color=site)) +
-  geom_point(aes(color=site)) +
-  labs(x = "year", y = "lobster count (individuals)") +
+  geom_line(aes(color=site_name_long)) +
+  #geom_line(aes(year, yearly_lobsters, size=(MPA, 2)),data=annual_lobsters) 
+  geom_point(aes(color=site_name_long)) + 
+  theme_minimal()+
+  labs(x = "Year", y = "Annual Number of Observed Lobsters") +
   geom_text(x = 2017.9, y = 250,
             label = "MPA",
             color = "purple",
@@ -78,6 +79,7 @@ ggplot(annual_lobsters, aes(x=year, y=yearly_lobsters)) +
             vjust = 0)
 
   ### What do you think with the MPA listed on the graph? 
+# weird to say annual, since the lobbsters are counted every month. Only during a couple months. 
 
 ```
 ***Figure 2.** Lobster counts from 2012 to 2018 in MPAs (IVEE and NAPL) and Non-MPAs (AQUE, CARP, and MOHK). MPAs were established on January 1, 2012.*
